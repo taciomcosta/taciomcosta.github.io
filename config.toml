@@ -19,7 +19,7 @@ disqusShortname = "yourdiscussshortname"
     description = "Tacio Costa's personal website"
     keywords = "blog,developer,personal,tacio,engineer,software,architect"
     info = "Software Engineer | Software Architect"
-    avatarURL = "https://avatars.githubusercontent.com/u/17253711?s=460&u=06872c279b39d6a9c5e2d6731e0220de3692536b&v=4"
+    avatarURL = "images/avatar.png"
     #gravatar = "john.doe@example.com"
     footerContent = "42"
 
