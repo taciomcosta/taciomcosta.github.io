@@ -44,7 +44,7 @@ Typescript, integrated many different services and databases.
 TDD, BDD, Clean Code, Clean Architecture, DDD, Design Patterns, Small Releases
 and Refactoring are some of the things in my toolbox. I am also highly inspired by:
 
-- [The Programmer's Oath](https://blog.cleancoder.com/uncle-bob/2015/11/18/TheProgrammersOath.html),
+- [The Programmer's Oath](https://blog.cleancoder.com/uncle-bob/2015/11/18/TheProgrammersOath.html)
 - [Software Craftsmanship](https://manifesto.softwarecraftsmanship.org/)
 - [Ron Jeffrie's Circle of Life](https://agiletools.files.wordpress.com/2019/02/fig2.png)
 

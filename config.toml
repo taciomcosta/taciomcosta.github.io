@@ -182,7 +182,7 @@ disqusShortname = "yourdiscussshortname"
             [[languages.pt-br.menu.main]]
             name = "Sobre"
             weight = 1
-            url = "about/"
+            url = "sobre/"
 
             [[languages.pt-br.menu.main]]
             name = "Blog"
