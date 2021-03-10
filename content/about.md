@@ -12,7 +12,7 @@ that love delivering great software and making people's lives easier.
 I've been working with NodeJS for five years and learning and contributing
 to open source projects in Golang, in the last two years.
 
-Recently, I joined [Delivery Much](https://deliverymuch.com.br)'s tech team as a backend engineer. Previously,
+I recently joined [Delivery Much](https://deliverymuch.com.br)'s tech team as a backend engineer. Previously,
 I worked as a software architect, back-end lead, back-end and quality assurance
 and even had some devops responsibilities.
 Yeah, I know, too many different things. But I have to say that it helped me
