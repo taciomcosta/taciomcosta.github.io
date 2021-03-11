@@ -160,11 +160,6 @@ disqusShortname = "yourdiscussshortname"
             weight = 3
             url = "experiences/"
 
-            [[languages.en.menu.main]]
-            name = "Contact me"
-            weight = 5
-            url = "contact/"
-
 
     [languages.pt-br]
         languageName = "Português"
@@ -193,8 +188,3 @@ disqusShortname = "yourdiscussshortname"
             name = "Experiências"
             weight = 3
             url = "experiencias/"
-
-            [[languages.pt-br.menu.main]]
-            name = "Contato"
-            weight = 5
-            url = "contact/"

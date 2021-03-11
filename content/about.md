@@ -31,13 +31,13 @@ Back-end engineering, Golang and building awesome products in tech companies.
 #### Tell me more about your Golang experience?
 I don't have any professional experience yet. My experience is totally based on open
 source contributions. I've been contributing to some great projects like Kubernetes,
-Grafana and CoreDNS. I am even doing my own open source project, [Kronos](https://github.com/taciomcosta/kronos).
+Grafana and CoreDNS. I am even doing my own open source project, [Kronos](https://github.com/taciomcosta/kronos).  You can find more [here](/experiences).
 
 
 #### Tell me more about your NodeJS experience?
 Well, I've worked in many different products related to monitoring, delivering,
 scraping, microservices and monoliths, and I even architected some of them. I used NestJS,
-Typescript, integrated many different services and databases.
+Typescript, integrated many different services and databases. You can find more [here](/experiences).
 
 
 #### What are your disciplines?
