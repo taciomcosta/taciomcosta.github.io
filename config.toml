@@ -156,9 +156,9 @@ disqusShortname = "yourdiscussshortname"
             url = "posts/"
 
             [[languages.en.menu.main]]
-            name = "Projects"
+            name = "Experiences"
             weight = 3
-            url = "projects/"
+            url = "experiences/"
 
             [[languages.en.menu.main]]
             name = "Contact me"
@@ -190,9 +190,9 @@ disqusShortname = "yourdiscussshortname"
             url = "posts/"
 
             [[languages.pt-br.menu.main]]
-            name = "Projetos"
+            name = "Experiências"
             weight = 3
-            url = "projects/"
+            url = "experiencias/"
 
             [[languages.pt-br.menu.main]]
             name = "Contato"

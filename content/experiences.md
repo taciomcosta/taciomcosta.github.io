@@ -1,6 +1,6 @@
 +++
-title = "Projects"
-slug = "projects"
+title = "Experiences"
+slug = "experiences"
 +++
 
 ## Open Source 
