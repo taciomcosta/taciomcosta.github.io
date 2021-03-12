@@ -1,0 +1,27 @@
++++
+date = "2021-03-10"
+title = "Reasons I am Learning Golang"
+slug = "reasons-i-am-learning-golang"
+tags = [
+    "go",
+    "golang",
+    "learning",
+]
+categories = [
+    "programming languages",
+    "golang",
+]
++++
+
+### _Simplicity is the ultimate sophistication. - Leonardo da Vinci_
+
+So it's been more than an year since I started to write my first lines of Go code.
+It was the end of 2019, I header some rumors about some "Go programming language"
+that was hyped, that was backed by Google and that it was different from every other
+programming language. 
+
+When you're learning to program and you here things the ones above, you get excited:
+yeey a new tool to learn! - or panicked: ooh, no! another thing to learn.
+But when you have a few years of experience, you're reaction will look more like:
+oh, another couple of people creating things to solve the same problems.
+
