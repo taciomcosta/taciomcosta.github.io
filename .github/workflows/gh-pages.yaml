@@ -29,3 +29,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN  }}
           publish_dir: ./public
           publish_branch: source
+          deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
