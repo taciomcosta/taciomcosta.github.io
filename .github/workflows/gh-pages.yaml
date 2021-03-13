@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - master  # Set a branch to deploy
+      - source  # Set a branch to deploy
 
 jobs:
   deploy:
@@ -28,5 +28,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN  }}
           publish_dir: ./public
-          publish_branch: source
+          publish_branch: master
           deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
