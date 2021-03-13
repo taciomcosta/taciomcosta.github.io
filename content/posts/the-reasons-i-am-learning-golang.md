@@ -63,7 +63,7 @@ to make abstract art.
 
 #### #2 Packaging At The Right Level
 When we want our software to have a long life, one of the most important
-concerns is design. In special, we constantly need to keep looking for improvents on 
+concerns is design. In special, we constantly need to keep looking for improvements on 
 maintainability and reusability. Reason #1 talked about maintainability, 
 so let's focus on reusability now.
 
