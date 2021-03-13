@@ -12,7 +12,7 @@ pygmentsStyle = "b2"
 pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
-disqusShortname = "yourdiscussshortname"
+disqusShortname = "https-taciomcosta-dev"
 
 [params]
     author = "Tacio Costa"
