@@ -30,3 +30,4 @@ jobs:
           publish_dir: ./public
           publish_branch: master
           deploy_key: ${{ secrets.SSH_DEPLOY_KEY }}
+          cname: taciomcosta.dev
