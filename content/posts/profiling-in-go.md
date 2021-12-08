@@ -262,9 +262,9 @@ the file content into a slice of strings. Not bad.
 
 ### What's more?
 
-In the same way that we profilled the memory usage, we can use the same approch 
+In the same way that we profilled the memory usage, we can use the same approach 
 to profile the CPU usage, with the goal of finding functions that take more time
-to be executed, or functions that are being executed excessively. To do that, we
+to be executed, or functions that are being executed many times. To do that, we
 just have to run the `go test` command using the `-cpuprofile` flag.
 
 
