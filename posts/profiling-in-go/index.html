@@ -343,9 +343,9 @@ What&rsquo;s more?
 <i class="fa fa-link" aria-hidden=true></i>
 </a>
 </h3>
-<p>In the same way that we profilled the memory usage, we can use the same approch
+<p>In the same way that we profilled the memory usage, we can use the same approach
 to profile the CPU usage, with the goal of finding functions that take more time
-to be executed, or functions that are being executed excessively. To do that, we
+to be executed, or functions that are being executed many times. To do that, we
 just have to run the <code>go test</code> command using the <code>-cpuprofile</code> flag.</p>
 <div class=highlight><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-fallback data-lang=fallback>➜ go test -bench SortNumbers -cpuprofile cpu.prof ./example/...
 </code></pre></div><p>At last, it&rsquo;s worth remembering that there are other ways of profiling in Go.
