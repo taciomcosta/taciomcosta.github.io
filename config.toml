@@ -19,7 +19,7 @@ disableComments = true
     description = "Tacio Costa's personal website"
     keywords = "blog,developer,personal,tacio,engineer,software,architect"
     info = "Software Engineer | Software Architect"
-    avatarURL = "images/avatar.png"
+    avatarURL = "images/profile.jpg"
     #gravatar = "john.doe@example.com"
     footerContent = "42"
 

@@ -3,7 +3,7 @@ title = "Sobre mim"
 slug = "sobre"
 +++
 
-{{< figure src="/images/avatar.png" alt="Me" class="right-aligned" height="300" >}}
+{{< figure src="/images/profile.jpg" alt="Me" class="right-aligned" height="300" >}}
 
 ### Bem-vindo! :)
 
