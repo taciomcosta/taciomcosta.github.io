@@ -4,12 +4,28 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{pageTitle}}</title>
+  <meta name="description" content="{{description}}">
+  <link rel="canonical" href="{{canonicalUrl}}">
+  <link rel="alternate" hreflang="en" href="{{hreflangEn}}">
+  <link rel="alternate" hreflang="pt-BR" href="{{hreflangPt}}">
+  <link rel="alternate" hreflang="x-default" href="{{hreflangEn}}">
+  <meta property="og:title" content="{{pageTitle}}">
+  <meta property="og:description" content="{{description}}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{canonicalUrl}}">
+  <meta property="og:image" content="https://taciomcosta.dev/images/profile.jpg">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{pageTitle}}">
+  <meta name="twitter:description" content="{{description}}">
+  <meta name="twitter:image" content="https://taciomcosta.dev/images/profile.jpg">
+  <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
   <link rel="stylesheet" href="/css/style.css">
   <script>
     (function(){if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light';}})();
   </script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
   <header>
     <nav>
       <a href="{{homeUrl}}" class="site-title">taciomcosta.dev</a>
@@ -23,7 +39,7 @@
       </div>
     </nav>
   </header>
-  <main>
+  <main id="main">
     {{body}}
   </main>
   <footer>
