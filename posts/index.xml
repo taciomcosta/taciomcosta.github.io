@@ -1,2 +1,519 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Tacio Costa</title><link>https://taciomcosta.dev/posts/</link><description>Recent content in Posts on Tacio Costa</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 06 Dec 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://taciomcosta.dev/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Profiling in Go</title><link>https://taciomcosta.dev/posts/profiling-in-go/</link><pubDate>Mon, 06 Dec 2021 00:00:00 +0000</pubDate><guid>https://taciomcosta.dev/posts/profiling-in-go/</guid><description>&amp;ldquo;The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.&amp;rdquo; - The Art of Computer Programming Why bother? Profiling is a technique to analyze the utilization of computational resources of applications, such as CPU and memory.</description></item><item><title>Test Data Builder Pattern in Go</title><link>https://taciomcosta.dev/posts/test-data-builder-pattern-in-go/</link><pubDate>Sun, 28 Mar 2021 00:00:00 +0000</pubDate><guid>https://taciomcosta.dev/posts/test-data-builder-pattern-in-go/</guid><description>The problem is that it&amp;rsquo;s easy to duplicate knowledge in the specifications, processes and programs that we develop, and when we do so, we invite a maintenance nightmare. - The Pragmatic Programmer One of the quality attributes that has become more important in modern software development is maintainability. We developers want (and should) write software that can be read by other people and not just to be read by computers.</description></item><item><title>The Reasons I am Learning Golang</title><link>https://taciomcosta.dev/posts/the-reasons-i-am-learning-golang/</link><pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate><guid>https://taciomcosta.dev/posts/the-reasons-i-am-learning-golang/</guid><description>Simplicity is the ultimate sophistication. - Leonardo da Vinci So it&amp;rsquo;s been more than a year since I started to write my first lines of Go code. It was the end of 2019, I heard rumors about some &amp;ldquo;Go programming language&amp;rdquo; that was hyped, that was backed by Google and that was different from every other programming language.
-When you&amp;rsquo;re learning to program and you here things like the ones above, you get excited: &amp;ldquo;yeey a new tool to learn!</description></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Tacio Costa</title>
+    <link>https://taciomcosta.dev</link>
+    <description>Software Engineer | Software Architect</description>
+    
+  <item>
+    <title>Profiling in Go</title>
+    <link>https://taciomcosta.dev/posts/profiling-in-go/</link>
+    <pubDate>Mon, 06 Dec 2021 00:00:00 GMT</pubDate>
+    <description>&lt;h4&gt;&lt;em&gt;&amp;quot;The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.&amp;quot; - The Art of Computer Programming&lt;/em&gt;&lt;/h4&gt;
+&lt;h3&gt;Why bother?&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Profiling&lt;/em&gt; is a technique to analyze the utilization of computational resources of applications,
+such as CPU and memory. It&amp;#39;s very useful to spot snippets of code with a high consumption
+of resources and excessive function calls. The goal with profiling is to find sections of
+code that can be optmized, and opportunities of improving code performance as well.&lt;/p&gt;
+&lt;p&gt;When we talk about code optimization, one of the most important things is to know when
+to optimize our programs. We should be aware of code optimization impacts at the expense of
+code readability and design. In most situations, it&amp;#39;s more valuable to have clean code with
+a flexible design instead of a high performance code with low maintainability. We don&amp;#39;t need
+code with the best performance, we just need code with enough performance.&lt;/p&gt;
+&lt;p&gt;Moreover, most of the time, the biggest part of costs come from some fewer sections of our code.
+With that, it&amp;#39;s wise to focus on optimizing those fewer sections of code instead of spending
+time trying to find ways of optimizing sections of code that will have lower or no impact in
+the overall program performance.&lt;/p&gt;
+&lt;h3&gt;How does it work?&lt;/h3&gt;
+&lt;p&gt;We can think about the process of profiling and code optimization in three steps:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Collecting data&lt;/strong&gt;: the profiling tool collects samples of CPU and memory
+from the running program. To do that, we can use the testing tool (&lt;code&gt;go test&lt;/code&gt;) or the &lt;code&gt;http/pprof&lt;/code&gt; package
+(in this case, an endpoint is exposed in our server);&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Visualizing data&lt;/strong&gt;: we can visualize the collected samples both in the terminal
+and in web interface, we can do that using the &lt;code&gt;go tool pprof&lt;/code&gt; command;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Optimizing the program&lt;/strong&gt;: at last, we decide how to optimize our program (and if we should 
+optimize it at all). In general, we have two ways of doing that: we can change the data structures
+or we can change the algorithm;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Example: Memory profiling&lt;/h3&gt;
+&lt;p&gt;The program below sorts the numbers from a file named &lt;code&gt;numbers.txt&lt;/code&gt;.
+This file has one million numbers generated randomly, between zero and one million.
+The function &lt;code&gt;SortNumbers()&lt;/code&gt; opens the file, then uses a &lt;code&gt;Scanner&lt;/code&gt;, from the &lt;code&gt;bufio&lt;/code&gt; package,
+to read one line at a time and add the number read to the &lt;code&gt;numbers&lt;/code&gt; slice.
+To simplify the example, let&amp;#39;s keep the numbers read as strings and ignore the error handling
+(do not do that at home).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;package main
+
+import (
+    &amp;quot;bufio&amp;quot;
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;os&amp;quot;
+    &amp;quot;sort&amp;quot;
+)
+
+func main() {
+    numbers := SortNumbers(&amp;quot;./numbers.txt&amp;quot;)
+    fmt.Println(numbers)
+}
+
+func SortNumbers(filepath string) []string {
+    var numbers []string
+
+    f, _ := os.Open(filepath)
+
+    scanner := bufio.NewScanner(f)
+    for scanner.Scan() {
+        numbers = append(numbers, scanner.Text())
+    }
+
+    sort.Strings(numbers)
+
+    return numbers
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h6&gt;1. Collecting data&lt;/h6&gt;
+&lt;p&gt;For this example, we are going to use &lt;code&gt;go test&lt;/code&gt; to collect samples of memory usage.
+To do that, we create the following benchmark testing file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;package main
+
+import &amp;quot;testing&amp;quot;
+
+func BenchmarkSortNumbers(b *testing.B) {
+    for i := 0 ; i &amp;lt; b.N; i++ {
+        SortNumbers(&amp;quot;./numbers.txt&amp;quot;)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we run the following command:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;➜ go test -bench SortNumbers -benchmem -memprofile mem.prof ./example/...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-bench&lt;/code&gt; accepts a &lt;em&gt;regex pattern&lt;/em&gt; with the name of the benchmark test to be run.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-benchmem&lt;/code&gt; prints additional information about memory allocations.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-memprofile&lt;/code&gt; indicates that we are running a memory profiling and that the sample data
+should be saved to the &lt;em&gt;mem.prof&lt;/em&gt; file.&lt;/p&gt;
+&lt;p&gt;In addition to generating two new files, &lt;em&gt;mem.prof&lt;/em&gt; and &lt;em&gt;example.test&lt;/em&gt; (test binary), the command
+execution shows us the following output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;goos: linux
+goarch: amd64
+pkg: example
+cpu: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+...                 3         497555656 ns/op        96406397 B/op    1000040 allocs/op
+PASS
+ok      example  3.017s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h6&gt;2. Visualizing data&lt;/h6&gt;
+&lt;p&gt;In the output above, we can already notice some relevant information such as the total of
+memory allocations made by our program (1000040). That is sufficient enough to have some
+considerable preemptions of the &lt;em&gt;garbage collector&lt;/em&gt; during the program execution.&lt;/p&gt;
+&lt;p&gt;Now, let&amp;#39;s use the &lt;code&gt;pprof&lt;/code&gt; tool to visualize and analyze the samples with more detail.
+To do that, we run:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;➜ go tool pprof mem.prof
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;pprof&lt;/code&gt; has some interesting subcommands. To see the full list, you can
+use the &lt;em&gt;help&lt;/em&gt; subcommand at any time. Let&amp;#39;s use the &lt;em&gt;top5&lt;/em&gt; subcommand
+to visualize the five most significant function calls.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(pprof) top5
+Showing nodes accounting for 558.16MB, 100% of 558.16MB total
+Showing top 5 nodes out of 6
+      flat  flat%   sum%        cum   cum%
+  504.66MB 90.41% 90.41%   558.16MB   100%  example.SortNumbers
+   53.50MB  9.59%   100%    53.50MB  9.59%  bufio.(*Scanner).Text (inline)
+         0     0%   100%   558.16MB   100%  example.BenchmarkSortNumbers
+         0     0%   100%   469.17MB 84.06%  testing.(*B).launch
+         0     0%   100%    88.99MB 15.94%  testing.(*B).run1.func1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As we have only the &lt;code&gt;SortNumbers()&lt;/code&gt; function, we can see that
+the 558.16MB are being allocated within that. Now, let&amp;#39;s use the 
+&lt;em&gt;list&lt;/em&gt; subcommand to see more details of that function.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(pprof) list SortNumbers
+Total: 558.16MB
+ROUTINE ======================== profiling-poc/example.SortNumbers
+  504.66MB   558.16MB (flat, cum)   100% of Total
+         .          .     21:
+         .          .     22:   f, _ := os.Open(filepath)
+         .          .     23:
+         .          .     24:   scanner := bufio.NewScanner(f)
+         .          .     25:   for scanner.Scan() {
+  504.66MB   558.16MB     26:           numbers = append(numbers, scanner.Text())
+         .          .     27:   }
+         .          .     28:
+         .          .     29:   sort.Strings(numbers)
+         .          .     30:
+         .          .     31:   return numbers
+(pprof) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see that the memory allocation happens on line 26. As we are using a
+slice of variable length, in a few iterations more and more memory needs to be allocated.
+(Using the command &lt;code&gt;list Text()&lt;/code&gt; we could also identify that only something around 25MB
+were being allocated during the &lt;code&gt;scanner.Text()&lt;/code&gt; calls).&lt;/p&gt;
+&lt;h6&gt;3. Optimizing the program&lt;/h6&gt;
+&lt;p&gt;To optimize our program, we&amp;#39;re going to be using the &lt;em&gt;replace algorithm&lt;/em&gt; strategy.
+In this case, we are going to replace the implementation of &lt;code&gt;SortNumbers()&lt;/code&gt; function
+by the following one:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;func SortNumbers(filepath string) []string {
+    var numbers []string
+
+    bs, err := os.ReadFile(filepath)
+    if err != nil {
+        return numbers
+    }
+    numbers = strings.Split(string(bs), &amp;quot;\n&amp;quot;)
+
+    sort.Strings(numbers)
+
+    return numbers
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this implementation, we are reading all lines from &lt;code&gt;numbers.txt&lt;/code&gt; at once.
+We are also delegating the allocation of &lt;code&gt;numbers&lt;/code&gt; to the &lt;code&gt;strings.Split()&lt;/code&gt; call.
+Internally, this method allocates a fixed-size slice. Therefore, we can hope for
+better results this time.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;➜ go test -bench SortNumbers -benchmem -memprofile mem.prof ./example/...
+goos: linux
+goarch: amd64
+pkg: example
+cpu: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz
+...                 3         495895932 ns/op        29786464 B/op          8 allocs/op
+PASS
+ok      profiling-poc/example  2.978s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Using the &lt;code&gt;go test&lt;/code&gt; command to execute the benchmark tests once again,
+we see that we reduced the total number of memory allocations to only 8. Great!&lt;/p&gt;
+&lt;p&gt;Now let&amp;#39;s analyze the result of &lt;code&gt;go tool pprof&lt;/code&gt; one more time.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;(pprof) list SortNumbers 
+Total: 163.87MB
+ROUTINE ======================== example.SortNumbers
+   39.42MB   163.87MB (flat, cum)   100% of Total
+         .          .     31:   //return numbers
+         .          .     32://}
+         .          .     33:
+         .          .     34:func SortNumbers(filepath string) []string {
+         .          .     35:   var books []string
+         .    32.85MB     36:   bs, err := os.ReadFile(filepath)
+         .          .     37:   if err != nil {
+         .          .     38:           return books
+         .          .     39:   }
+   39.42MB   131.02MB     40:   books = strings.Split(string(bs), &amp;quot;\n&amp;quot;)
+         .          .     41:   sort.Strings(books)
+         .          .     42:   return books
+         .          .     43:}
+         .          .     44:
+         .          .     45:func generateFile(filepath string, n int) {
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;163.87MB of memory allocation (compared to 558.16MB of the first implementation).
+Again, great!
+We have an allocation of 32.85MB of &lt;code&gt;bs&lt;/code&gt; buffer, which holds all the content of
+&lt;code&gt;numbers.txt&lt;/code&gt; file. We also have a second allocation of 131.02MB, used to split
+the file content into a slice of strings. Not bad.&lt;/p&gt;
+&lt;h3&gt;What&amp;#39;s more?&lt;/h3&gt;
+&lt;p&gt;In the same way that we profilled the memory usage, we can use the same approach 
+to profile the CPU usage, with the goal of finding functions that take more time
+to be executed, or functions that are being executed many times. To do that, we
+just have to run the &lt;code&gt;go test&lt;/code&gt; command using the &lt;code&gt;-cpuprofile&lt;/code&gt; flag.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;➜ go test -bench SortNumbers -cpuprofile cpu.prof ./example/...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;At last, it&amp;#39;s worth remembering that there are other ways of profiling in Go.
+As mentioned in the begining of this post, we can use the &lt;code&gt;http/pprof&lt;/code&gt; package.
+Besides that, we have specific tools for each operating system, we have &lt;a href=&quot;https://perf.wiki.kernel.org/index.php/Tutorial&quot;&gt;perf&lt;/a&gt; 
+on Linux and &lt;a href=&quot;https://help.apple.com/instruments/mac/current/#/dev7b09c84f5&quot;&gt;Instruments&lt;/a&gt; on macOS.
+You can learn more about them reading the &lt;a href=&quot;https://go.dev/doc/diagnostics&quot;&gt;diagnostics&lt;/a&gt;
+language documentation.&lt;/p&gt;
+</description>
+  </item>
+  <item>
+    <title>Test Data Builder Pattern in Go</title>
+    <link>https://taciomcosta.dev/posts/test-data-builder-pattern-in-go/</link>
+    <pubDate>Sun, 28 Mar 2021 00:00:00 GMT</pubDate>
+    <description>&lt;h4&gt;&lt;em&gt;The problem is that it&amp;#39;s easy to duplicate knowledge in the specifications, processes and programs that we develop, and when we do so, we invite a maintenance nightmare. - The Pragmatic Programmer&lt;/em&gt;&lt;/h4&gt;
+&lt;p&gt;One of the quality attributes that has become more important in modern software
+development is &lt;em&gt;maintainability&lt;/em&gt;. We developers want (and should) write software
+that can be read by other people and not just to be read by computers. That may be
+the main context in which maintainability manifests itself in software development.
+There are other contexts such as software design, in which it is also important.&lt;/p&gt;
+&lt;p&gt;A second practice in modern software development is writing &lt;em&gt;automated tests&lt;/em&gt;:
+unit tests, functional tests, integration tests, and others. We developers don&amp;#39;t
+like to introduce bugs in our applications, we don&amp;#39;t want to regress our software,
+we want to document it and keep a simple design. Automated tests supports us in
+all those aspects.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Maintainability and automated tests&lt;/em&gt;. That is a very important combination that
+is generally neglected by software developers. Even that books like &lt;em&gt;Clean Code&lt;/em&gt;
+dedicated an entire chapter about that subject, we still don&amp;#39;t hear that much
+about having a clean test suite, with test code as clean as production code, and
+with a long durability.&lt;/p&gt;
+&lt;p&gt;The goal of this post is to present a design pattern that can help us a lot in
+solving one of the most common problems when we&amp;#39;re writing automated tests:
+preparing mock data (or test data, as you will). Of course that it will be just
+one many practices and patterns that we can add to our toolbox, so that
+we can improve the maintainability of the automated tests that we write.&lt;/p&gt;
+&lt;p&gt;I believe &lt;em&gt;Test Data Builder Pattern&lt;/em&gt; had its first appearance in &lt;em&gt;Growing Object-Oriented
+Software Guided By Tests&lt;/em&gt;, written by Steve Freeman and Nat Pryce. The idea is 
+very simple: we use an old friend of Gang Of Four, the Builder Pattern, to create
+mock data for our automated tests. Still inspired by Gang of Four, let&amp;#39;s formalize
+the idea a bit more and illustrate it with an example.&lt;/p&gt;
+&lt;h4&gt;Example&lt;/h4&gt;
+&lt;p&gt;Let&amp;#39;s write test cases for an &amp;quot;application&amp;quot; that recommends a food diet based on
+certain characterists such as age, weight, height, country and diseases of someone.
+(Yes, I know that a real recommendation app would have variables more relevant
+than those). We&amp;#39;re going to be writing our app using the Go programming language,
+our main function looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;foods := RecommendDiet(person)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Of course we&amp;#39;re not going to be implementing that function since that&amp;#39;s not the
+purpose of this example (and since we&amp;#39;re not writing a real recommendation 
+app :D). But you can imagine that the &lt;code&gt;person&lt;/code&gt; parameter is of type &lt;code&gt;Person&lt;/code&gt;,
+that has each of the properties mentioned above: age, height, diseases. To make
+the example more interesting, let&amp;#39;s come up with some business rules that tells
+us if a person can or cannot have fast food recommended on her diet:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;People aged between 10 and 40 can have fast food as a recommendation.&lt;/li&gt;
+&lt;li&gt;People whose BMI falls within normal, aged between 40 and 60, can have fast food as a recommendation.&lt;/li&gt;
+&lt;li&gt;People weighting more than 187 pounds cannot have fast food as a recommendation.&lt;/li&gt;
+&lt;li&gt;People with heart diseases cannot have fast food as a recommendation.&lt;/li&gt;
+&lt;li&gt;In addition to fast food, rice and beans should be recommended to brazillians.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In Golang, it&amp;#39;s very common to write tests using &lt;a href=&quot;https://github.com/golang/go/wiki/TableDrivenTests&quot;&gt;Table-Driven Tests&lt;/a&gt;,
+it is, we create a table (slice/array) containing the input for our test case
+and the expected output. Then we loop over each test case as shown in the example
+that follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var testCases = []struct {
+    description string
+    input Person
+    expected []string
+} {
+    {
+        description: &amp;quot;should recommend fast food for people aged between 10 and 40&amp;quot;,
+        input: Person{
+            Age: 20,
+            Height: 0,
+            Weight: 0,
+            Country: &amp;quot;Brazil&amp;quot;,
+            Diseases: []string{},
+        },
+        expected: []string{&amp;quot;fast food&amp;quot;},
+    },
+    {
+        description: &amp;quot;should not recommend fast food for people aged under 10&amp;quot;,
+        input: Person{
+            Age: 9,
+            Height: 0,
+            Weight: 0,
+            Country: &amp;quot;France&amp;quot;,
+            Diseases: []string{},
+        },
+        expected: []string{},
+    },
+    // we keep creating data and test cases for each business rule
+    // ...
+}
+
+func TestRecommendDiet(t *testing.T) {
+    for _, testCase := range testCases {
+        // ... 
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Even that this example hides some code snippets, the problem to be solved by
+&lt;em&gt;Test Data Builder Pattern&lt;/em&gt; can clearly be observed in the code above. Notice how
+we have to create a new &lt;code&gt;Person&lt;/code&gt; object for each test case, and we generally do that
+just to change some specific property value, while the remaining properties are 
+just repeated as they are irrelevant to the rule being tested.&lt;/p&gt;
+&lt;p&gt;Using the &lt;em&gt;Test Data Builder Pattern&lt;/em&gt; we do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;We create a Builder that initializes a &lt;code&gt;Person&lt;/code&gt; object with default values (those
+can be values that always set the object to a valid state).&lt;/li&gt;
+&lt;li&gt;For every property that is relevant to some test case, we add a &lt;code&gt;With...()&lt;/code&gt;
+method to set the property value.&lt;/li&gt;
+&lt;li&gt;Finally, we add a &lt;code&gt;Build()&lt;/code&gt; method, as the original Builder Pattern requires,
+so that the &lt;code&gt;Person&lt;/code&gt; object can be used by our test cases.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;func NewPersonBuilder() *PersonBuilder {
+    builder := &amp;amp;PersonBuilder{}
+    builder.person = &amp;amp;Person{
+        Age: 20,
+        Height: 5.7,
+        Weight: 108,
+        Country: &amp;quot;France&amp;quot;,
+        Diseases: []string{},
+    }
+    return builder
+}
+
+type PersonBuilder struct {
+    person *Person
+}
+
+func (builder PersonBuilder) WithAge(age int) PersonBuilder {
+    builder.person.Age = age
+    return builder
+}
+
+func (builder PersonBuilder) WithCountry(country string) PersonBuilder {
+    builder.person.Country = country
+    return builder
+}
+
+func (builder PersonBuilder) Build() Person {
+    return *builder.person
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Refactoring our test cases to use &lt;code&gt;PersonBuilder&lt;/code&gt;, we have:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-go&quot;&gt;var testCases = []struct {
+    description string
+    input Person
+    expected []string
+} {
+    {
+        description: &amp;quot;should recommend fast food for people aged between 10 and 40&amp;quot;,
+        input: NewPersonBuilder().WithAge(20).Build(),
+        expected: []string{&amp;quot;fast food&amp;quot;},
+    },
+    {
+        description: &amp;quot;should not recommend fast food for people aged under 10&amp;quot;,
+        input: NewPersonBuilder().WithAge(9).Build(),
+        expected: []string{},
+    },
+    {
+        description: &amp;quot;should recommend rice, beans and fast food for brazillians&amp;quot;,
+        input: NewPersonBuilder().WithCountry(&amp;quot;Brazil&amp;quot;).Build(),
+        expected: []string{&amp;quot;rice&amp;quot;, &amp;quot;beans&amp;quot;, &amp;quot;fast food&amp;quot;},
+    },
+    // ...
+}
+
+func TestRecommendDiet(t *testing.T) {
+    for _, testCase := range testCases {
+        // ... 
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice how the tests become much more expressive almost to the point of making
+&lt;code&gt;description&lt;/code&gt; redundant in the test cases. More important than that: if we add,
+update or remove any property from &lt;code&gt;Person&lt;/code&gt;, we don&amp;#39;t need to update every single
+test case (long live encapsulation &amp;lt;3).&lt;/p&gt;
+&lt;p&gt;It&amp;#39;s important to mention that we are using a small, limited example in which
+&lt;code&gt;Person&lt;/code&gt; has some few properties. In a real production scenario, we could have
+objects with tens or even hundreds of properties (yes those objects are probably
+not well desinged, but unfortunately they do exist), we could also have many different
+business rules that touch different subsests of those properties. 
+In those scenarios, &lt;em&gt;Test Data Builder&lt;/em&gt; helps us avoid a real mocking hell.&lt;/p&gt;
+&lt;h4&gt;Formalization&lt;/h4&gt;
+&lt;h4&gt;Intention&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Make mock data more maintainable.&lt;/li&gt;
+&lt;li&gt;Increase readability of test cases.&lt;/li&gt;
+&lt;li&gt;Add a certain level of encapsulation between test cases and production objects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Participants&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Data type&lt;/strong&gt;: can be a struct, class or any production data representation.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Builder&lt;/strong&gt;: builds data type by using default values and provides useful 
+methods to change specific property values in test cases.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test cases&lt;/strong&gt;: use Builder to instantiate new data type objects.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Good Usage Scenarios&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Tests with production objects that require some slight variation in its 
+input values to satistfy the business rule being tested.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+  </item>
+  <item>
+    <title>The Reasons I am Learning Golang</title>
+    <link>https://taciomcosta.dev/posts/the-reasons-i-am-learning-golang/</link>
+    <pubDate>Wed, 10 Mar 2021 00:00:00 GMT</pubDate>
+    <description>&lt;h4&gt;&lt;em&gt;Simplicity is the ultimate sophistication. - Leonardo da Vinci&lt;/em&gt;&lt;/h4&gt;
+&lt;p&gt;So it&amp;#39;s been more than a year since I started to write my first lines of Go code.
+It was the end of 2019, I heard rumors about some &amp;quot;Go programming language&amp;quot;
+that was hyped, that was backed by Google and that was different from every other
+programming language. &lt;/p&gt;
+&lt;p&gt;When you&amp;#39;re learning to program and you here things like the ones above, you get excited:
+&amp;quot;yeey a new tool to learn!&amp;quot; - or at least panicked: &amp;quot;ooh, no! another tool to learn.&amp;quot;
+But as you gain more years of experience, your reaction becomes closer to
+&amp;quot;oh no, another couple of people reinventing the wheel&amp;quot;. The latter was my reaction, so
+I decided to google &amp;quot;Golang&amp;quot; to confirm my preconceptions, but something happened.&lt;/p&gt;
+&lt;p&gt;At that time, I was a software architect. I was building software with Typescript
+and NodeJS for years and I was demotivated by the manner that the language was
+being used: complex syntax, missing good package encapsulation (as an architect,
+that&amp;#39;s important) and design constraints imposed by single-thread and event loop.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;DISCLAIMER&lt;/strong&gt;: Hey you! Before you continue, I don&amp;#39;t want you to think that I 
+am arguing that Go is better than Typescript/NodeJS. 
+That&amp;#39;s not the point. Please, pay attention to what I wrote: I was
+demotivated by &lt;strong&gt;the manner people use the tools&lt;/strong&gt;, and Golang seems
+to solve all the problems that I wrote in the last paragraph.
+That said, let me detail the reasons that made me put some eggs in
+Golang&amp;#39;s basket.&lt;/p&gt;
+&lt;h4&gt;#1 Twenty-Five Keywords Are Enough&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;const, var, func, type, import, package, chan, interface, map, struct, break,
+case, continue, default, else, falthrough, for, goto, if, range, return, select,
+switch, defer, go&lt;/em&gt;. &lt;/p&gt;
+&lt;p&gt;That&amp;#39;s it, you just learned all keywords in Golang. But why
+is that important anyway?  Well, after reading hundreds of code bases and 
+thousands of lines of code, you start to realize how complicated things become 
+when you just want to adjust a feature or fix a bug in your project, and the file you&amp;#39;re editing 
+has four different &lt;em&gt;for loop&lt;/em&gt; implementations, or three different ways to write a condition.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Should I use an &amp;quot;if&amp;quot; here? Should I use a ternary operator? &amp;quot;dogs.forEach...&amp;quot; oh, wait!
+that&amp;#39;s slower than &amp;quot;for of&amp;quot;. &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You see?  My point here is about flexibility. It&amp;#39;s nice to have options to shorten your
+implementation process. But at the end of the day it becomes chaotic. Your
+code base becomes a baroque poetry written by drunk people. The task
+that you had to solve becomes a bit more complex because programmers decided
+to make abstract art.&lt;/p&gt;
+&lt;h4&gt;#2 Packaging At The Right Level&lt;/h4&gt;
+&lt;p&gt;When we want our software to have a long life, one of the most important
+concerns is design. In special, we constantly need to keep looking for improvements on 
+maintainability and reusability. Reason #1 talked about maintainability, 
+so let&amp;#39;s focus on reusability now.&lt;/p&gt;
+&lt;p&gt;How hard it is to create a component in the programming language that you use? 
+How hard it is to import a component developed by another programmer in your 
+company? I imagine the other programmer divided the component into many files, 
+but he/she doesn&amp;#39;t want clients to be able to import any file they want from 
+his/her component. Does your programming language support that?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Does your programming language provide syntax and tools for representing
+components?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;If you&amp;#39;re developing a web application in Go, you can clearly define
+the boundaries of your app. Want to design something based on hexagonal/clean
+architecture? No problem, you can assign a file to a package just by adding
+&lt;code&gt;package &amp;lt;name&amp;gt;&lt;/code&gt; as the first line of the file and putting it into a folder
+with the same name.&lt;/p&gt;
+&lt;p&gt;Go let&amp;#39;s you define boundaries between files from one package and files
+from a second package. In practice, if two files belong to package A they
+will act as if they were a single file, it is, you can share functions and
+data types between the two files.&lt;/p&gt;
+&lt;p&gt;On the other hand, clients of package A don&amp;#39;t need to be concerned about how many 
+files package A really has. If some file in package B needs to use package A, 
+all you have to do is &lt;code&gt;import A&lt;/code&gt; at the beginning of B&amp;#39;s file. 
+In summary, clients depend on packages instead of individual files. Encapsulation.&lt;/p&gt;
+&lt;h4&gt;#3 The Beauty of Concurrency&lt;/h4&gt;
+&lt;p&gt;Concurrency and parallelism. That&amp;#39;s a topic very debated in computer science.
+One of the hardest problems to solve. Great attempts were made to solve it, with 
+Communicating Sequential Processes (CSP) being one of those attempts.&lt;/p&gt;
+&lt;p&gt;CSP has its roots in math. It&amp;#39;s conceptualized as a formal language in that 
+communication happens with message passing via channels. Using the math terms,
+&lt;em&gt;we have processes that communicate data as events&lt;/em&gt;. Processes are intended
+to be designed as elements that can act independently. Thus CSP is about concurrency,
+but not about parallelism.&lt;/p&gt;
+&lt;p&gt;Golang uses CSP as its concurrency model:
+we have goroutines and whenever we want to emit an event to another goroutine, 
+we send the data through a channel. &lt;strong&gt;We share data by communicating, we don&amp;#39;t
+communicate by sharing data&lt;/strong&gt;, it is, we don&amp;#39;t need to share a variable&amp;#39;s
+memory address between threads and handle race conditions, because we are not
+interested in memory addresses but in the value they hold.&lt;/p&gt;
+&lt;p&gt;The fact that Golang was designed with concurrency in mind instead of parallelism
+is awesome. It gives programmers an enourmous power for designing great software.
+I don&amp;#39;t want to risk myself trying to explain concurrency vs paralleism here,
+that would take a new and long blog post. Besides that, a very qualified person
+has already done it: &lt;a href=&quot;https://www.youtube.com/watch?v=oV9rvDllKEg&quot;&gt;Concurrency is not Parallelism by Rob Pike&lt;/a&gt;.&lt;/p&gt;
+</description>
+  </item>
+  </channel>
+</rss>
