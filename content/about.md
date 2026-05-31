@@ -5,20 +5,10 @@ slug: "about"
 
 <img src="/images/profile.jpg" alt="Tacio Costa" class="profile-img">
 
-### Welcome!
+### > whoami
 
-Nice to meet you! I am Tacio. I am a software engineer and architect 
-that love delivering great software and making people's lives easier.
-I've been working with NodeJS for five years and learning and contributing
-to open source projects in Golang, in the last two years.
+I'm Tacio, a software engineer with ten years of industry experience across ride-sharing, food delivery, telemetry, games, and education.
 
-I recently joined [Delivery Much](https://deliverymuch.com.br)'s tech team as a backend engineer. Previously,
-I worked as a software architect, back-end lead, back-end and quality assurance
-and even had some devops responsibilities.
-Yeah, I know, too many different things. But I have to say that it helped me
-to have a broader knowledge about software engineering.
+I recently joined Google as a Software Engineer, after working at Uber and iFood in Brazil. I'm interested in distributed systems, artificial intelligence, developer tools, and sustainable productivity.
 
-Oh, I forgot to say that I am brazillian, that I have a Bachelor of Computer Science
-and that I was a Fifa Pro Player in the past (I can hear you saying that Fifa isn't
-even a game).
-
+I hold a bachelor's degree in Computer Science and enjoy building my own tools to learn, work, and think better.
