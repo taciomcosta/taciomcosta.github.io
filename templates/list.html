@@ -1,6 +1,11 @@
 <section class="posts-list">
   <h1>{{heading}}</h1>
+  <div class="blog-filter">
+    <input type="text" id="post-search" placeholder="search posts..." autocomplete="off" spellcheck="false">
+    <div class="tag-filters">{{tagFilters}}</div>
+  </div>
   <ul>
     {{items}}
   </ul>
+  <p id="no-results" style="display:none">no posts found.</p>
 </section>
