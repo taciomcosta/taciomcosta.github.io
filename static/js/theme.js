@@ -18,13 +18,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    var stored = localStorage.getItem(KEY);
-    var theme;
-    if (stored === LIGHT || stored === DARK) {
-      theme = stored;
-    } else {
-      theme = window.matchMedia('(prefers-color-scheme: light)').matches ? LIGHT : DARK;
-    }
+    var theme = localStorage.getItem(KEY) === LIGHT ? LIGHT : DARK;
     apply(theme);
 
     var btn = document.getElementById('theme-toggle');
