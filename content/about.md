@@ -1,11 +1,11 @@
-+++
-title = "About me"
-slug = "about"
-+++
+---
+title: "About me"
+slug: "about"
+---
 
-{{< figure src="/images/profile.jpg" alt="Me" class="right-aligned" height="300" >}}
+<img src="/images/profile.jpg" alt="Tacio Costa" class="profile-img">
 
-### Welcome! :)
+### Welcome!
 
 Nice to meet you! I am Tacio. I am a software engineer and architect 
 that love delivering great software and making people's lives easier.
@@ -47,4 +47,3 @@ and Refactoring are some of the things in my toolbox. I am also highly inspired 
 - [The Programmer's Oath](https://blog.cleancoder.com/uncle-bob/2015/11/18/TheProgrammersOath.html)
 - [Software Craftsmanship](https://manifesto.softwarecraftsmanship.org/)
 - [Ron Jeffrie's Circle of Life](https://agiletools.files.wordpress.com/2019/02/fig2.png)
-

@@ -1,18 +1,10 @@
-+++
-date = "2021-12-06"
-title = "Profiling in Go"
-slug = "profiling-in-go"
-tags = [
-    "go",
-    "golang",
-    "performance",
-    "profiling",
-]
-categories = [
-    "golang",
-    "performance",
-]
-+++
+---
+date: "2021-12-06"
+title: "Profiling in Go"
+slug: "profiling-in-go"
+tags: ["go", "golang", "performance", "profiling"]
+categories: ["golang", "performance"]
+---
 
 #### _"The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming." - The Art of Computer Programming_
 
@@ -278,4 +270,3 @@ Besides that, we have specific tools for each operating system, we have [perf](h
 on Linux and [Instruments](https://help.apple.com/instruments/mac/current/#/dev7b09c84f5) on macOS.
 You can learn more about them reading the [diagnostics](https://go.dev/doc/diagnostics)
 language documentation.
-

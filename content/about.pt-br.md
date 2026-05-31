@@ -1,11 +1,11 @@
-+++
-title = "Sobre mim"
-slug = "sobre"
-+++
+---
+title: "Sobre mim"
+slug: "sobre"
+---
 
-{{< figure src="/images/profile.jpg" alt="Me" class="right-aligned" height="300" >}}
+<img src="/images/profile.jpg" alt="Tacio Costa" class="profile-img">
 
-### Bem-vindo! :)
+### Bem-vindo!
 
 Olá, muito prazer! Me chamo Tacio. Sou um engenheiro de software e arquiteto
 que ama entregar software de qualidade e tornar a vida das pessoas mais fáceis.
@@ -24,7 +24,7 @@ que Fifa nem é jogo de verdade). Bom, vamos ao FAQ...
 
 ### FAQ
 
-#### Então voce trabalhou com muits coisas diferentes, mas qual o seu foco?
+#### Então voce trabalhou com muitas coisas diferentes, mas qual o seu foco?
 Back-end, Golang e construir produtos incríveis em empresas tech.
 
 
@@ -46,4 +46,3 @@ e Refactoring são algumas das coisas na minha caixa de ferramentas. Também me 
 - [The Programmer's Oath](https://blog.cleancoder.com/uncle-bob/2015/11/18/TheProgrammersOath.html)
 - [Software Craftsmanship](https://manifesto.softwarecraftsmanship.org/)
 - [Ron Jeffrie's Circle of Life](https://agiletools.files.wordpress.com/2019/02/fig2.png)
-

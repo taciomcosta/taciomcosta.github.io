@@ -1,17 +1,10 @@
-+++
-date = "2021-03-28"
-title = "Test Data Builder Pattern em Go"
-slug = "test-data-builder-pattern-em-go"
-tags = [
-    "go",
-    "golang",
-    "testing",
-]
-categories = [
-    "golang",
-    "testing",
-]
-+++
+---
+date: "2021-03-28"
+title: "Test Data Builder Pattern em Go"
+slug: "test-data-builder-pattern-em-go"
+tags: ["go", "golang", "testing"]
+categories: ["golang", "testing"]
+---
 
 #### _The problem is that it's easy to duplicate knowledge in the specifications, processes and programs that we develop, and when we do so, we invite a maintenance nightmare. - The Pragmatic Programmer_
 
@@ -49,7 +42,7 @@ os passos do Gang Of Four mais uma vez, vamos formalizar essa ideia um pouco
 mais e ilustrá-la com um exemplo.
 
 
-#### Example
+#### Exemplo
 
 Vamos escrever casos de testes para uma "aplicação" que recomenda
 uma dieta de alimentos baseando-se em características como idade, peso, altura, 
@@ -89,48 +82,15 @@ var testCases = []struct {
 } {
 	{
 		description: "should recommend fast food for people aged between 10 and 40",
-		input: Person: {
-			Age: 20
+		input: Person{
+			Age: 20,
 			Height: 0,
 			Weight: 0,
-			Country: "Brazil"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
+			Country: "Brazil",
+			Diseases: []string{},
+		},
+		expected: []string{"fast food"},
 	},
-	{
-		description: "should not recommend fast food for people aged under 10",
-		input: Person: {
-			Age: 9
-			Height: 0,
-			Weight: 0,
-			Country: "France"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should not recommend fast food for people aged over 40",
-		input: Person: {
-			Age: 41,
-			Height: 0,
-			Weight: 0,
-			Country: "France"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should recommend rice, beans and fast food for brazillians",
-		input: Person: {
-			Age: 10,
-			Height: 0,
-			Weight: 0,
-			Country: "Brazil"
-			Diseases: []string{}
-		}
-		expected: []string{"rice", "beans", "fast food"}
-	}
 	// we keep creating data and test cases for each business rule
 	// ...
 }
@@ -168,7 +128,7 @@ func NewPersonBuilder() *PersonBuilder {
 		Height: 5.7,
 		Weight: 108,
 		Country: "France",
-		Diseases: []string{}
+		Diseases: []string{},
 	}
 	return builder
 }
@@ -178,13 +138,17 @@ type PersonBuilder struct {
 }
 
 func (builder PersonBuilder) WithAge(age int) PersonBuilder {
-	builder.Age = age
+	builder.person.Age = age
 	return builder
 }
 
 func (builder PersonBuilder) WithCountry(country string) PersonBuilder {
-	builder.Country = country
+	builder.person.Country = country
 	return builder
+}
+
+func (builder PersonBuilder) Build() Person {
+	return *builder.person
 }
 ```
 
@@ -199,23 +163,18 @@ var testCases = []struct {
 	{
 		description: "should recommend fast food for people aged between 10 and 40",
 		input: NewPersonBuilder().WithAge(20).Build(),
-		expected: []string{"fast food"}
+		expected: []string{"fast food"},
 	},
 	{
 		description: "should not recommend fast food for people aged under 10",
 		input: NewPersonBuilder().WithAge(9).Build(),
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should not recommend fast food for people aged over 40",
-		input: NewPersonBuilder().WithAge(41).Build(),
-		expected: []string{"fast food"}
-	}
+		expected: []string{},
+	},
 	{
 		description: "should recommend rice, beans and fast food for brazillians",
 		input: NewPersonBuilder().WithCountry("Brazil").Build(),
-		expected: []string{"rice", "beans", "fast food"}
-	}
+		expected: []string{"rice", "beans", "fast food"},
+	},
 	// ...
 }
 
@@ -238,21 +197,21 @@ possuem mais reponsabilidade do que deveriam, mas infelizmente existem), além
 de dezenas de regras de negócios que misturam diversas propriedades. Nesses
 cenários, o _Test Data Builder Pattern_ nos ajudaria a evitar um verdadeiro mocking hell.  
 
-#### Formalization
+#### Formalização
 
-#### Intention
+#### Intenção
 - Tornar mock data mais manutenível.
 - Aumentar a legibilidade de casos de testes.
 - Adicionar um certo nível de encapsulamento entre nossos testes e nossos 
   objetos de produção.
 
-#### Participants
+#### Participantes
 - **Data type**: representa um tipo de dado (pode ser uma struct, class)
 - **Builder**: constrói objeto de produção utilizando valores default e providenciando
   métodos úteis para alterar propriedades nos casos de testes.
 - **Test cases**: utilizam o Builder para construir um novo objeto de produção.
 
-#### Good Usage Scenarios
+#### Cenários de uso
 - Testes que envolvem objetos de produção com muitas propriedades, sendo necessário
-um objeto de produção com uma pequena variação nos valores de suas propriedades,
-para cada novo caso de uso.
+  um objeto de produção com uma pequena variação nos valores de suas propriedades,
+  para cada novo caso de uso.

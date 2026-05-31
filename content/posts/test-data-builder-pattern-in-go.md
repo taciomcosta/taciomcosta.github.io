@@ -1,17 +1,10 @@
-+++
-date = "2021-03-28"
-title = "Test Data Builder Pattern in Go"
-slug = "test-data-builder-pattern-in-go"
-tags = [
-    "go",
-    "golang",
-    "testing",
-]
-categories = [
-    "golang",
-    "testing",
-]
-+++
+---
+date: "2021-03-28"
+title: "Test Data Builder Pattern in Go"
+slug: "test-data-builder-pattern-in-go"
+tags: ["go", "golang", "testing"]
+categories: ["golang", "testing"]
+---
 
 #### _The problem is that it's easy to duplicate knowledge in the specifications, processes and programs that we develop, and when we do so, we invite a maintenance nightmare. - The Pragmatic Programmer_
 
@@ -77,54 +70,32 @@ that follows:
 
 ```go
 var testCases = []struct {
-	description string(b
+	description string
 	input Person
 	expected []string
 } {
 	{
 		description: "should recommend fast food for people aged between 10 and 40",
-		input: Person: {
-			Age: 20
+		input: Person{
+			Age: 20,
 			Height: 0,
 			Weight: 0,
-			Country: "Brazil"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
+			Country: "Brazil",
+			Diseases: []string{},
+		},
+		expected: []string{"fast food"},
 	},
 	{
 		description: "should not recommend fast food for people aged under 10",
-		input: Person: {
-			Age: 9
+		input: Person{
+			Age: 9,
 			Height: 0,
 			Weight: 0,
-			Country: "France"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should not recommend fast food for people aged over 40",
-		input: Person: {
-			Age: 41,
-			Height: 0,
-			Weight: 0,
-			Country: "France"
-			Diseases: []string{}
-		}
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should recommend rice, beans and fast food for brazillians",
-		input: Person: {
-			Age: 10,
-			Height: 0,
-			Weight: 0,
-			Country: "Brazil"
-			Diseases: []string{}
-		}
-		expected: []string{"rice", "beans", "fast food"}
-	}
+			Country: "France",
+			Diseases: []string{},
+		},
+		expected: []string{},
+	},
 	// we keep creating data and test cases for each business rule
 	// ...
 }
@@ -160,7 +131,7 @@ func NewPersonBuilder() *PersonBuilder {
 		Height: 5.7,
 		Weight: 108,
 		Country: "France",
-		Diseases: []string{}
+		Diseases: []string{},
 	}
 	return builder
 }
@@ -170,13 +141,17 @@ type PersonBuilder struct {
 }
 
 func (builder PersonBuilder) WithAge(age int) PersonBuilder {
-	builder.Age = age
+	builder.person.Age = age
 	return builder
 }
 
 func (builder PersonBuilder) WithCountry(country string) PersonBuilder {
-	builder.Country = country
+	builder.person.Country = country
 	return builder
+}
+
+func (builder PersonBuilder) Build() Person {
+	return *builder.person
 }
 ```
 
@@ -191,23 +166,18 @@ var testCases = []struct {
 	{
 		description: "should recommend fast food for people aged between 10 and 40",
 		input: NewPersonBuilder().WithAge(20).Build(),
-		expected: []string{"fast food"}
+		expected: []string{"fast food"},
 	},
 	{
 		description: "should not recommend fast food for people aged under 10",
 		input: NewPersonBuilder().WithAge(9).Build(),
-		expected: []string{"fast food"}
-	}
-	{
-		description: "should not recommend fast food for people aged over 40",
-		input: NewPersonBuilder().WithAge(41).Build(),
-		expected: []string{"fast food"}
-	}
+		expected: []string{},
+	},
 	{
 		description: "should recommend rice, beans and fast food for brazillians",
 		input: NewPersonBuilder().WithCountry("Brazil").Build(),
-		expected: []string{"rice", "beans", "fast food"}
-	}
+		expected: []string{"rice", "beans", "fast food"},
+	},
 	// ...
 }
 
@@ -244,5 +214,5 @@ In those scenarios, _Test Data Builder_ helps us avoid a real mocking hell.
 - **Test cases**: use Builder to instantiate new data type objects.
 
 #### Good Usage Scenarios
-- Tests with production objects that require  some slight variation in its 
+- Tests with production objects that require some slight variation in its 
   input values to satistfy the business rule being tested.

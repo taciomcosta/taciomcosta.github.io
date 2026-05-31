@@ -1,7 +1,7 @@
-+++
-title = "Experiências"
-slug = "experiencias"
-+++
+---
+title: "Experiências"
+slug: "experiencias"
+---
 
 ## Open Source 
 ------------------------------
@@ -21,7 +21,7 @@ slug = "experiencias"
 
 **Feitos (_pontos abaixo ainda em progresso_)**
 - Planejou e implementou regras de negócios de um novo microserviço, que reduziu
-- o tempo de onboarding de lojistas de mesese para dias. NodeJS e MongoDB foram utilizados;
+  o tempo de onboarding de lojistas de meses para dias. NodeJS e MongoDB foram utilizados;
 - Contribuiu para uma migração arquitetural: de um monolíto em PHP para uma arquitetura
   baseada em microserviços, utilizando NodeJS e Golang. Isso ajudou a empresa a identificar
   events de seu domínio principal e a escalar o seu negócio com menor acoplamento;

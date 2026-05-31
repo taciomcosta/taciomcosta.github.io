@@ -1,18 +1,10 @@
-+++
-date = "2021-12-06"
-title = "Profiling em Go"
-slug = "profiling-em-go"
-tags = [
-    "go",
-    "golang",
-    "performance",
-    "profiling",
-]
-categories = [
-    "golang",
-    "performance",
-]
-+++
+---
+date: "2021-12-06"
+title: "Profiling em Go"
+slug: "profiling-em-go"
+tags: ["go", "golang", "performance", "profiling"]
+categories: ["golang", "performance"]
+---
 
 #### _"O verdadeiro problema é que os progamadores passam muito tempo se preocupando com eficiência nos lugares errados e em momentos errados; otimização prematura é a raiz de todo o mal na programação (ou pelo menos da maior parte)." - The Art of Computer Programming_
 

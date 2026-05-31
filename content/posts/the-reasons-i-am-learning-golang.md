@@ -1,17 +1,10 @@
-+++
-date = "2021-03-10"
-title = "The Reasons I am Learning Golang"
-slug = "the-reasons-i-am-learning-golang"
-tags = [
-    "go",
-    "golang",
-    "learning",
-]
-categories = [
-    "programming languages",
-    "golang",
-]
-+++
+---
+date: "2021-03-10"
+title: "The Reasons I am Learning Golang"
+slug: "the-reasons-i-am-learning-golang"
+tags: ["go", "golang", "learning"]
+categories: ["programming languages", "golang"]
+---
 
 #### _Simplicity is the ultimate sophistication. - Leonardo da Vinci_
 

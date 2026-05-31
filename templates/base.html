@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{pageTitle}}</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script>
+    (function(){var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.dataset.theme='light';}else if(!t&&window.matchMedia('(prefers-color-scheme: light)').matches){document.documentElement.dataset.theme='light';}})();
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="{{homeUrl}}" class="site-title">taciomcosta.dev</a>
+      <div class="nav-links">
+        <a href="{{aboutUrl}}">{{navAbout}}</a>
+        <a href="{{postsUrl}}">blog</a>
+        <a href="{{experiencesUrl}}">{{navExperiences}}</a>
+        <span class="nav-sep">|</span>
+        <a href="{{langUrl}}">{{langLabel}}</a>
+        <button id="theme-toggle" aria-label="Toggle theme">◐</button>
+      </div>
+    </nav>
+  </header>
+  <main>
+    {{body}}
+  </main>
+  <footer>
+    <a href="https://github.com/taciomcosta/" target="_blank" rel="noopener">github</a>
+    <span>·</span>
+    <a href="https://twitter.com/taciomcosta/" target="_blank" rel="noopener">twitter</a>
+    <span>·</span>
+    <a href="https://www.linkedin.com/in/taciomcosta/" target="_blank" rel="noopener">linkedin</a>
+    <p class="footer-copy">42</p>
+  </footer>
+  <script src="/js/theme.js" defer></script>
+</body>
+</html>

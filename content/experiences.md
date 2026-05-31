@@ -1,7 +1,7 @@
-+++
-title = "Experiences"
-slug = "experiences"
-+++
+---
+title: "Experiences"
+slug: "experiences"
+---
 
 ## Open Source 
 ------------------------------
