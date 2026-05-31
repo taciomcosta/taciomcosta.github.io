@@ -20,29 +20,5 @@ me ajudou muito em ter uma visão mais ampla sobre engenharia de software.
 
 Ah, já estava me esquecendo de dizer que, sim, sou brasileiro. Sou bacharelado
 em Ciência da Computação e já fui Pro Player de Fifa (e consigo ouvir daqui você dizendo
-que Fifa nem é jogo de verdade). Bom, vamos ao FAQ...
+que Fifa nem é jogo de verdade).
 
-### FAQ
-
-#### Então voce trabalhou com muitas coisas diferentes, mas qual o seu foco?
-Back-end, Golang e construir produtos incríveis em empresas tech.
-
-
-#### Conte-me mais sobre sua experiência com Golang?
-Não tenho nenhuma experiência profissional. Toda minha experiência é baseada
-em contribuições para projetos open source. Já contribuí para grandes projetos
-como Kubernetes, Grafana e CoreDNS. E até estou contruindo meu próprio projeto, [Kronos](https://github.com/taciomcosta/kronos). Encontre mais [aqui](/pt-br/experiencias).
-
-#### Conte-me mais sobre sua experiência com NodeJS?
-Bem, já trabalhei em muitos produtos diferentes relacionados a monitoramento, delivery,
-scraping, microservices e monolitos, e até arquitetei alguns desses sistemas. Já usei
-NestJS, Typescript, integrei vários serviços e bancos de dados diferentes. Encontre mais [aqui](/pt-br/experiencias).
-
-
-#### Quais são suas disciplinas?
-TDD, BDD, Clean Code, Clean Architecture, DDD, Design Patterns, Small Releases
-e Refactoring são algumas das coisas na minha caixa de ferramentas. Também me inspiro bastante em:
-
-- [The Programmer's Oath](https://blog.cleancoder.com/uncle-bob/2015/11/18/TheProgrammersOath.html)
-- [Software Craftsmanship](https://manifesto.softwarecraftsmanship.org/)
-- [Ron Jeffrie's Circle of Life](https://agiletools.files.wordpress.com/2019/02/fig2.png)
