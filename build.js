@@ -54,6 +54,10 @@ function seoVars(canonicalPath, hreflangEnPath, hreflangPtPath, description) {
   };
 }
 
+function altLangUrl(locale, seo) {
+  return locale === 'pt-br' ? seo.hreflangEn : seo.hreflangPt;
+}
+
 function postDescription(html) {
   return html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().slice(0, 160);
 }
@@ -192,14 +196,16 @@ function buildHomepage(enPosts, allUrls) {
   const enSeo = seoVars('/', '/', '/pt-br/', postDescription(enAboutHtml));
   allUrls.push(enSeo.canonicalUrl);
   write(path.join(PUBLIC, 'index.html'),
-    renderPage(tpl, { body: enAboutHtml, recentItems }, { ...enVars, ...enSeo, pageTitle: 'Tacio Costa' }));
+    renderPage(tpl, { body: enAboutHtml, recentItems },
+      { ...enVars, ...enSeo, langUrl: altLangUrl('en', enSeo), pageTitle: 'Tacio Costa' }));
 
   const { html: ptAboutHtml } = parseFile(path.join(CONTENT, 'about.pt-br.md'));
   const ptVars = baseVars('pt-br');
   const ptSeo = seoVars('/pt-br/', '/', '/pt-br/', postDescription(ptAboutHtml));
   allUrls.push(ptSeo.canonicalUrl);
   write(path.join(PUBLIC, 'pt-br', 'index.html'),
-    renderPage(tpl, { body: ptAboutHtml, recentItems }, { ...ptVars, ...ptSeo, pageTitle: 'Tacio Costa' }));
+    renderPage(tpl, { body: ptAboutHtml, recentItems },
+      { ...ptVars, ...ptSeo, langUrl: altLangUrl('pt-br', ptSeo), pageTitle: 'Tacio Costa' }));
 }
 
 // --- Redirects for old /about/ and /pt-br/sobre/ URLs ---
@@ -239,7 +245,7 @@ function buildPages(allUrls) {
     allUrls.push(seo.canonicalUrl);
     write(path.join(outDir, 'index.html'),
       renderPage(pageTpl, { title: data.title, body: html },
-        { ...nav, ...seo, pageTitle: `${data.title} | Tacio Costa` }));
+        { ...nav, ...seo, langUrl: altLangUrl(locale, seo), pageTitle: `${data.title} | Tacio Costa` }));
   }
 }
 
@@ -306,7 +312,8 @@ function buildPosts(allUrls) {
         renderPage(postTpl,
           { title: data.title, date: String(data.date), dateDisplay: formatDate(data.date),
             readingTime: rt, tags: tagsHtml, toc, body: htmlWithIds, prevLink, nextLink },
-          { ...nav, ...seo, extraHead: HLJS_EXTRA_HEAD, pageTitle: `${data.title} | Tacio Costa` }));
+          { ...nav, ...seo, langUrl: altLangUrl(locale, seo),
+            extraHead: HLJS_EXTRA_HEAD, pageTitle: `${data.title} | Tacio Costa` }));
     });
   }
 
@@ -336,7 +343,8 @@ function buildPosts(allUrls) {
     }).join('\n    ');
 
     return renderPage(listTpl, { heading: nav.postsHeading, tagFilters, items },
-      { ...nav, ...seo, extraHead: FILTER_EXTRA_HEAD, pageTitle: `Posts | Tacio Costa` });
+      { ...nav, ...seo, langUrl: altLangUrl(locale, seo),
+        extraHead: FILTER_EXTRA_HEAD, pageTitle: `Posts | Tacio Costa` });
   }
 
   write(path.join(PUBLIC, 'posts', 'index.html'), buildList(enPosts, 'en'));
