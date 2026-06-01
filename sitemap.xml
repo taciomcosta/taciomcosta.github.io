@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://taciomcosta.dev/posts/profiling-in-go/</loc></url>
-  <url><loc>https://taciomcosta.dev/pt-br/posts/profiling-em-go/</loc></url>
   <url><loc>https://taciomcosta.dev/posts/rediscovering-the-joy-of-programming/</loc></url>
+  <url><loc>https://taciomcosta.dev/posts/profiling-in-go/</loc></url>
   <url><loc>https://taciomcosta.dev/posts/test-data-builder-pattern-in-go/</loc></url>
-  <url><loc>https://taciomcosta.dev/pt-br/posts/test-data-builder-pattern-em-go/</loc></url>
   <url><loc>https://taciomcosta.dev/posts/the-reasons-i-am-learning-golang/</loc></url>
+  <url><loc>https://taciomcosta.dev/pt-br/posts/profiling-em-go/</loc></url>
+  <url><loc>https://taciomcosta.dev/pt-br/posts/test-data-builder-pattern-em-go/</loc></url>
   <url><loc>https://taciomcosta.dev/</loc></url>
   <url><loc>https://taciomcosta.dev/pt-br/</loc></url>
   <url><loc>https://taciomcosta.dev/about/</loc></url>

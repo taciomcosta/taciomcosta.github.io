@@ -17,8 +17,8 @@
   --fg:       #1a1a1a;
   --fg-dim:   #666;
   --accent:   #006400;
-  --code-bg:  #e8e8e4;
   --border:   #cececa;
+  /* code-bg stays dark in light mode — code blocks are always terminal-style */
 }
 
 /* ===== Reset ===== */
@@ -99,8 +99,11 @@ pre code {
   background: none;
   padding: 0;
   font-size: 0.875rem;
-  color: var(--fg);
+  color: #c8c8c8; /* fixed light color — code blocks always dark */
 }
+
+/* highlight.js: prevent theme from overriding our pre background */
+.hljs { background: var(--code-bg) !important; }
 
 /* ===== Layout ===== */
 main {
@@ -394,3 +397,116 @@ footer a:hover { color: var(--accent); text-decoration: none; }
   .nav-links { gap: 0.75rem; }
   .nav-sep { display: none; }
 }
+
+/* ===== Post meta (date + reading time) ===== */
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg-dim);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+.meta-sep { color: var(--border); }
+.reading-time { color: var(--fg-dim); font-size: 0.85rem; }
+
+/* ===== Post list: right-side meta ===== */
+.post-right {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  color: var(--fg-dim);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.posts-list li {
+  align-items: baseline;
+}
+
+/* ===== Table of contents ===== */
+.toc {
+  margin: 0 0 2rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+.toc details { padding: 0; }
+.toc summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+  color: var(--fg-dim);
+  user-select: none;
+}
+.toc summary::-webkit-details-marker { display: none; }
+.toc summary::before { content: '▸ '; }
+details[open] .toc summary::before { content: '▾ '; }
+.toc ul {
+  list-style: none;
+  padding: 0.25rem 0 0.75rem;
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+.toc li { padding: 0; margin: 0; }
+.toc a {
+  display: block;
+  padding: 0.2rem 1rem;
+  color: var(--fg-dim);
+  text-decoration: none;
+}
+.toc a:hover { color: var(--accent); }
+.toc-h3 { padding-left: 1rem; }
+
+/* ===== Prev/next post navigation ===== */
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  gap: 1rem;
+  font-size: 0.875rem;
+}
+.post-nav a { color: var(--fg-dim); text-decoration: none; max-width: 45%; }
+.post-nav a:hover { color: var(--accent); }
+.post-nav-next { margin-left: auto; text-align: right; }
+
+/* ===== Blog filter ===== */
+.blog-filter {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+#post-search {
+  font-family: var(--font);
+  font-size: 0.875rem;
+  background: var(--surface);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  outline: none;
+}
+#post-search:focus { border-color: var(--accent); }
+#post-search::placeholder { color: var(--fg-dim); }
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.tag-btn {
+  font-family: var(--font);
+  font-size: 0.8rem;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.tag-btn:hover { border-color: var(--accent); color: var(--accent); }
+.tag-btn.active { border-color: var(--accent); color: var(--accent); background: var(--surface); }
+#no-results { color: var(--fg-dim); font-size: 0.875rem; padding: 1rem 0; }

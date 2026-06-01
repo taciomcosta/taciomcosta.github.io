@@ -20,6 +20,12 @@
   <meta name="twitter:image" content="https://taciomcosta.dev/images/profile.jpg">
   <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
   <link rel="stylesheet" href="/css/style.css">
+  <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('pre code[class]').forEach(function(el){hljs.highlightElement(el);});
+});</script>
   <script>
     (function(){if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light';}})();
   </script>
@@ -43,9 +49,14 @@
     <article class="post">
   <header class="post-header">
     <h1>Test Data Builder Pattern in Go</h1>
-    <time datetime="2021-03-28">March 28, 2021</time>
+    <div class="post-meta">
+      <time datetime="2021-03-28">March 28, 2021</time>
+      <span class="meta-sep">·</span>
+      <span class="reading-time">6 min read</span>
+    </div>
     <div class="tags"><span class="tag">go</span> <span class="tag">golang</span> <span class="tag">testing</span></div>
   </header>
+  
   <div class="post-body">
     <h4><em>The problem is that it&#39;s easy to duplicate knowledge in the specifications, processes and programs that we develop, and when we do so, we invite a maintenance nightmare. - The Pragmatic Programmer</em></h4>
 <p>One of the quality attributes that has become more important in modern software
@@ -241,6 +252,10 @@ input values to satistfy the business rule being tested.</li>
 </ul>
 
   </div>
+  <nav class="post-nav">
+    <a href="/posts/profiling-in-go/" class="post-nav-prev">← Profiling in Go</a>
+    <a href="/posts/the-reasons-i-am-learning-golang/" class="post-nav-next">The Reasons I am Learning Golang →</a>
+  </nav>
 </article>
 
   </main>

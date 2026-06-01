@@ -20,6 +20,12 @@
   <meta name="twitter:image" content="https://taciomcosta.dev/images/profile.jpg">
   <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
   <link rel="stylesheet" href="/css/style.css">
+  <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('pre code[class]').forEach(function(el){hljs.highlightElement(el);});
+});</script>
   <script>
     (function(){if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light';}})();
   </script>
@@ -43,12 +49,20 @@
     <article class="post">
   <header class="post-header">
     <h1>Profiling em Go</h1>
-    <time datetime="2021-12-06">December 6, 2021</time>
+    <div class="post-meta">
+      <time datetime="2021-12-06">December 6, 2021</time>
+      <span class="meta-sep">·</span>
+      <span class="reading-time">7 min de leitura</span>
+    </div>
     <div class="tags"><span class="tag">go</span> <span class="tag">golang</span> <span class="tag">performance</span> <span class="tag">profiling</span></div>
   </header>
+  <nav class="toc"><details open><summary>contents</summary><ul><li class="toc-h3"><a href="#por-que-se-importar">Por que se importar?</a></li>
+<li class="toc-h3"><a href="#como-funciona">Como funciona?</a></li>
+<li class="toc-h3"><a href="#exemplo-profiling-de-memria">Exemplo: Profiling de memória</a></li>
+<li class="toc-h3"><a href="#o-que-mais">O que mais?</a></li></ul></details></nav>
   <div class="post-body">
     <h4><em>&quot;O verdadeiro problema é que os progamadores passam muito tempo se preocupando com eficiência nos lugares errados e em momentos errados; otimização prematura é a raiz de todo o mal na programação (ou pelo menos da maior parte).&quot; - The Art of Computer Programming</em></h4>
-<h3>Por que se importar?</h3>
+<h3 id="por-que-se-importar">Por que se importar?</h3>
 <p><em>Profiling</em> é uma técnica para analisar a utilização de recursos computacionais de uma 
 aplicação, tais como CPU e memória. É bastante útil para identificar trechos de código com alto 
 consumo de recursos e chamadas excessivas de funções. O objetivo do <em>profiling</em> é encontrar 
@@ -62,7 +76,7 @@ Não precisamos da melhor performance possível, apenas de performance o suficie
 causado por algumas poucas seções do código. Portanto, vale mais a pena focar na otimização 
 dessas pequenas seções de alto custo, em vez de gastar tempo pensando em como otimizar 
 outras seções que terão pouco impacto sobre a performance geral do programa.</p>
-<h3>Como funciona?</h3>
+<h3 id="como-funciona">Como funciona?</h3>
 <p>Podemos pensar no processo de <em>profiling</em> e otimização de código em três etapas:</p>
 <ol>
 <li><p><strong>Coleta de dados</strong>: a ferramenta de <em>profiling</em> coleta amostras do consumo de CPU e memória do 
@@ -77,7 +91,7 @@ temos duas maneiras de fazer isso: alterando as estruturas de dados utilizadas o
 algoritmo utilizado;</p>
 </li>
 </ol>
-<h3>Exemplo: Profiling de memória</h3>
+<h3 id="exemplo-profiling-de-memria">Exemplo: Profiling de memória</h3>
 <p>O programa abaixo ordena os números que estão salvos em um arquivo chamado <code>numbers.txt</code>.
 Esse arquivo contém um milhão de números gerados aleatoriamente, entre zero e um milhão.
 A função <code>SortNumbers()</code> abre o arquivo, e então utiliza um <code>Scanner</code>, do pacote <code>bufio</code>,
@@ -248,7 +262,7 @@ ROUTINE ======================== example.SortNumbers
 Temos uma alocação de 32.85MB do <em>buffer</em> <code>bs</code>, que possui todo o conteúdo do 
 arquivo <code>numbers.txt</code>. E temos uma segunda alocação de 131.02MB, para dividir o 
 conteúdo do arquivo em um slice de <em>strings</em>. Nada mal.</p>
-<h3>O que mais?</h3>
+<h3 id="o-que-mais">O que mais?</h3>
 <p>Do mesmo jeito que fizemos o <em>profiling</em> de memória no exemplo acima, podemos
 seguir a mesma abordagem para fazer um <em>profiling</em> de CPU, a fim de identificar 
 funções que levam mais tempo para serem executadas, ou funções que estão sendo 
@@ -263,6 +277,10 @@ disso, temos ferramentas próprias para cada sistema operacional, como por exemp
 de <a href="https://go.dev/doc/diagnostics">diagnostics</a> da linguagem.</p>
 
   </div>
+  <nav class="post-nav">
+    
+    <a href="/pt-br/posts/test-data-builder-pattern-em-go/" class="post-nav-next">Test Data Builder Pattern em Go →</a>
+  </nav>
 </article>
 
   </main>

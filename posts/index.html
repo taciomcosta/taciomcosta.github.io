@@ -20,6 +20,7 @@
   <meta name="twitter:image" content="https://taciomcosta.dev/images/profile.jpg">
   <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
   <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/filter.js" defer></script>
   <script>
     (function(){if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light';}})();
   </script>
@@ -42,12 +43,24 @@
   <main id="main">
     <section class="posts-list">
   <h1>posts</h1>
+  <div class="blog-filter">
+    <input type="text" id="post-search" placeholder="search posts..." autocomplete="off" spellcheck="false">
+    <div class="tag-filters"><button class="tag-btn" data-tag="career">career</button>
+    <button class="tag-btn" data-tag="go">go</button>
+    <button class="tag-btn" data-tag="golang">golang</button>
+    <button class="tag-btn" data-tag="learning">learning</button>
+    <button class="tag-btn" data-tag="performance">performance</button>
+    <button class="tag-btn" data-tag="philosophy">philosophy</button>
+    <button class="tag-btn" data-tag="profiling">profiling</button>
+    <button class="tag-btn" data-tag="testing">testing</button></div>
+  </div>
   <ul>
-    <li><a href="/posts/rediscovering-the-joy-of-programming/">Rediscovering The Joy Of Programming</a><time>May 31, 2026</time></li>
-    <li><a href="/posts/profiling-in-go/">Profiling in Go</a><time>December 6, 2021</time></li>
-    <li><a href="/posts/test-data-builder-pattern-in-go/">Test Data Builder Pattern in Go</a><time>March 28, 2021</time></li>
-    <li><a href="/posts/the-reasons-i-am-learning-golang/">The Reasons I am Learning Golang</a><time>March 10, 2021</time></li>
+    <li data-title="rediscovering the joy of programming" data-tags="career,philosophy"><a href="/posts/rediscovering-the-joy-of-programming/">Rediscovering The Joy Of Programming</a><span class="post-right"><span class="reading-time">3 min read</span><time>May 31, 2026</time></span></li>
+    <li data-title="profiling in go" data-tags="go,golang,performance,profiling"><a href="/posts/profiling-in-go/">Profiling in Go</a><span class="post-right"><span class="reading-time">7 min read</span><time>December 6, 2021</time></span></li>
+    <li data-title="test data builder pattern in go" data-tags="go,golang,testing"><a href="/posts/test-data-builder-pattern-in-go/">Test Data Builder Pattern in Go</a><span class="post-right"><span class="reading-time">6 min read</span><time>March 28, 2021</time></span></li>
+    <li data-title="the reasons i am learning golang" data-tags="go,golang,learning"><a href="/posts/the-reasons-i-am-learning-golang/">The Reasons I am Learning Golang</a><span class="post-right"><span class="reading-time">5 min read</span><time>March 10, 2021</time></span></li>
   </ul>
+  <p id="no-results" style="display:none">no posts found.</p>
 </section>
 
   </main>

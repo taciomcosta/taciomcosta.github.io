@@ -13,8 +13,15 @@
     } else {
       delete document.documentElement.dataset.theme;
     }
+
     var btn = document.getElementById('theme-toggle');
     if (btn) btn.textContent = theme === DARK ? '◑' : '◐';
+
+    // Swap highlight.js theme if post page loaded it
+    var darkSheet = document.getElementById('hljs-dark');
+    var lightSheet = document.getElementById('hljs-light');
+    if (darkSheet) darkSheet.disabled = theme === LIGHT;
+    if (lightSheet) lightSheet.disabled = theme === DARK;
   }
 
   document.addEventListener('DOMContentLoaded', function () {

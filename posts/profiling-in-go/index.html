@@ -20,6 +20,12 @@
   <meta name="twitter:image" content="https://taciomcosta.dev/images/profile.jpg">
   <link rel="icon" type="image/jpeg" href="/images/profile.jpg">
   <link rel="stylesheet" href="/css/style.css">
+  <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+<link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css" disabled>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('pre code[class]').forEach(function(el){hljs.highlightElement(el);});
+});</script>
   <script>
     (function(){if(localStorage.getItem('theme')==='light'){document.documentElement.dataset.theme='light';}})();
   </script>
@@ -43,12 +49,20 @@
     <article class="post">
   <header class="post-header">
     <h1>Profiling in Go</h1>
-    <time datetime="2021-12-06">December 6, 2021</time>
+    <div class="post-meta">
+      <time datetime="2021-12-06">December 6, 2021</time>
+      <span class="meta-sep">·</span>
+      <span class="reading-time">7 min read</span>
+    </div>
     <div class="tags"><span class="tag">go</span> <span class="tag">golang</span> <span class="tag">performance</span> <span class="tag">profiling</span></div>
   </header>
+  <nav class="toc"><details open><summary>contents</summary><ul><li class="toc-h3"><a href="#why-bother">Why bother?</a></li>
+<li class="toc-h3"><a href="#how-does-it-work">How does it work?</a></li>
+<li class="toc-h3"><a href="#example-memory-profiling">Example: Memory profiling</a></li>
+<li class="toc-h3"><a href="#whats-more">Whats more?</a></li></ul></details></nav>
   <div class="post-body">
     <h4><em>&quot;The real problem is that programmers have spent far too much time worrying about efficiency in the wrong places and at the wrong times; premature optimization is the root of all evil (or at least most of it) in programming.&quot; - The Art of Computer Programming</em></h4>
-<h3>Why bother?</h3>
+<h3 id="why-bother">Why bother?</h3>
 <p><em>Profiling</em> is a technique to analyze the utilization of computational resources of applications,
 such as CPU and memory. It&#39;s very useful to spot snippets of code with a high consumption
 of resources and excessive function calls. The goal with profiling is to find sections of
@@ -62,7 +76,7 @@ code with the best performance, we just need code with enough performance.</p>
 With that, it&#39;s wise to focus on optimizing those fewer sections of code instead of spending
 time trying to find ways of optimizing sections of code that will have lower or no impact in
 the overall program performance.</p>
-<h3>How does it work?</h3>
+<h3 id="how-does-it-work">How does it work?</h3>
 <p>We can think about the process of profiling and code optimization in three steps:</p>
 <ol>
 <li><p><strong>Collecting data</strong>: the profiling tool collects samples of CPU and memory
@@ -77,7 +91,7 @@ optimize it at all). In general, we have two ways of doing that: we can change t
 or we can change the algorithm;</p>
 </li>
 </ol>
-<h3>Example: Memory profiling</h3>
+<h3 id="example-memory-profiling">Example: Memory profiling</h3>
 <p>The program below sorts the numbers from a file named <code>numbers.txt</code>.
 This file has one million numbers generated randomly, between zero and one million.
 The function <code>SortNumbers()</code> opens the file, then uses a <code>Scanner</code>, from the <code>bufio</code> package,
@@ -248,7 +262,7 @@ Again, great!
 We have an allocation of 32.85MB of <code>bs</code> buffer, which holds all the content of
 <code>numbers.txt</code> file. We also have a second allocation of 131.02MB, used to split
 the file content into a slice of strings. Not bad.</p>
-<h3>What&#39;s more?</h3>
+<h3 id="whats-more">What&#39;s more?</h3>
 <p>In the same way that we profilled the memory usage, we can use the same approach 
 to profile the CPU usage, with the goal of finding functions that take more time
 to be executed, or functions that are being executed many times. To do that, we
@@ -263,6 +277,10 @@ You can learn more about them reading the <a href="https://go.dev/doc/diagnostic
 language documentation.</p>
 
   </div>
+  <nav class="post-nav">
+    <a href="/posts/rediscovering-the-joy-of-programming/" class="post-nav-prev">← Rediscovering The Joy Of Programming</a>
+    <a href="/posts/test-data-builder-pattern-in-go/" class="post-nav-next">Test Data Builder Pattern in Go →</a>
+  </nav>
 </article>
 
   </main>
