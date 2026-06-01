@@ -140,8 +140,6 @@ const NAV = {
   en: {
     lang: 'en',
     homeUrl: '/',
-    navAbout: 'about',
-    aboutUrl: '/about/',
     postsUrl: '/posts/',
     navExperiences: 'experiences',
     experiencesUrl: '/experiences/',
@@ -153,8 +151,6 @@ const NAV = {
   'pt-br': {
     lang: 'pt-BR',
     homeUrl: '/pt-br/',
-    navAbout: 'sobre',
-    aboutUrl: '/pt-br/sobre/',
     postsUrl: '/pt-br/posts/',
     navExperiences: 'experiências',
     experiencesUrl: '/pt-br/experiencias/',
@@ -182,7 +178,7 @@ function isPtBr(filename) {
   return filename.endsWith('.pt-br.md');
 }
 
-// --- Build homepage ---
+// --- Build homepage (renders from about.md content) ---
 
 function buildHomepage(enPosts, allUrls) {
   const tpl = readTemplate('home.html');
@@ -191,31 +187,41 @@ function buildHomepage(enPosts, allUrls) {
     `<li><a href="/posts/${p.slug}/">${p.title}</a><span class="post-year">${formatYear(p.date)}</span></li>`
   ).join('\n    ');
 
+  const { html: enAboutHtml } = parseFile(path.join(CONTENT, 'about.md'));
   const enVars = baseVars('en');
-  const enSeo = seoVars('/', '/', '/pt-br/');
+  const enSeo = seoVars('/', '/', '/pt-br/', postDescription(enAboutHtml));
   allUrls.push(enSeo.canonicalUrl);
   write(path.join(PUBLIC, 'index.html'),
-    renderPage(tpl, { ...enVars, recentItems }, { ...enVars, ...enSeo, pageTitle: 'Tacio Costa' }));
+    renderPage(tpl, { body: enAboutHtml, recentItems }, { ...enVars, ...enSeo, pageTitle: 'Tacio Costa' }));
 
+  const { html: ptAboutHtml } = parseFile(path.join(CONTENT, 'about.pt-br.md'));
   const ptVars = baseVars('pt-br');
-  const ptSeo = seoVars('/pt-br/', '/', '/pt-br/');
+  const ptSeo = seoVars('/pt-br/', '/', '/pt-br/', postDescription(ptAboutHtml));
   allUrls.push(ptSeo.canonicalUrl);
   write(path.join(PUBLIC, 'pt-br', 'index.html'),
-    renderPage(tpl, { ...ptVars, recentItems }, { ...ptVars, ...ptSeo, pageTitle: 'Tacio Costa' }));
+    renderPage(tpl, { body: ptAboutHtml, recentItems }, { ...ptVars, ...ptSeo, pageTitle: 'Tacio Costa' }));
+}
+
+// --- Redirects for old /about/ and /pt-br/sobre/ URLs ---
+
+function buildAboutRedirects() {
+  const redirect = dest =>
+    `<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0;url=${dest}">` +
+    `<link rel="canonical" href="${dest}"></head><body><a href="${dest}">&rarr;</a></body></html>`;
+  write(path.join(PUBLIC, 'about', 'index.html'), redirect('/'));
+  write(path.join(PUBLIC, 'pt-br', 'sobre', 'index.html'), redirect('/pt-br/'));
 }
 
 // --- Build pages (about, experiences) ---
 
 const PAGE_SEO = {
-  'about.md':             { canonicalPath: '/about/',              hreflangEn: '/about/',       hreflangPt: '/pt-br/sobre/' },
-  'about.pt-br.md':       { canonicalPath: '/pt-br/sobre/',        hreflangEn: '/about/',       hreflangPt: '/pt-br/sobre/' },
   'experiences.md':       { canonicalPath: '/experiences/',         hreflangEn: '/experiences/', hreflangPt: '/pt-br/experiencias/' },
   'experiences.pt-br.md': { canonicalPath: '/pt-br/experiencias/',  hreflangEn: '/experiences/', hreflangPt: '/pt-br/experiencias/' },
 };
 
 function buildPages(allUrls) {
   const pageTpl = readTemplate('page.html');
-  const pageFiles = ['about.md', 'about.pt-br.md', 'experiences.md', 'experiences.pt-br.md'];
+  const pageFiles = ['experiences.md', 'experiences.pt-br.md'];
 
   for (const file of pageFiles) {
     const filePath = path.join(CONTENT, file);
@@ -386,6 +392,7 @@ const allUrls = [];
 const enPosts = buildPosts(allUrls);
 buildHomepage(enPosts, allUrls);
 buildPages(allUrls);
+buildAboutRedirects();
 buildRss(enPosts);
 buildSitemap(allUrls);
 build404();
